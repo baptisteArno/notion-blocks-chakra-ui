@@ -1,17 +1,20 @@
 import React from 'react';
 import { chakra, Link, TextProps } from '@chakra-ui/react';
-import { RichTextText } from '@notionhq/client/build/src/api-types';
+import { RichText } from '@notionhq/client/build/src/api-types';
 
 export const NotionText = ({
   text,
   ...props
-}: { text?: RichTextText[] | null } & TextProps): JSX.Element => {
+}: { text?: RichText[] | null } & TextProps): JSX.Element => {
   if (!text) {
     return <></>;
   }
   return (
     <>
       {text.map((value, idx) => {
+        if (!('text' in value)) {
+          return <></>;
+        }
         const {
           annotations: { bold, code, color, italic, strikethrough, underline },
           text,
