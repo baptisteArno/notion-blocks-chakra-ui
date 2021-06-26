@@ -34,9 +34,8 @@ export const NotionBlock = ({
           .split(',')
           .map((val) => val.trim())
           .slice(1);
-        console.log(imageProps);
         return (
-          <Box w="100%" h={imageProps[1] ?? '300px'} pos="relative">
+          <Box w="100%" className="image-container">
             {customImage && customImage.Image ? (
               <customImage.Image src={imageProps[0]} {...customImage.props} />
             ) : (
