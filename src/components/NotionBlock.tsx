@@ -1,17 +1,23 @@
 import React from 'react';
-import { Box, Heading, Text, Image } from '@chakra-ui/react';
+import { Box, Heading, Text, Image, chakra } from '@chakra-ui/react';
 import {
   Block,
   HeadingOneBlock,
   HeadingThreeBlock,
   HeadingTwoBlock,
-  NumberedListItemBlock,
   ParagraphBlock,
   RichTextText,
 } from '@notionhq/client/build/src/api-types';
 import { NotionText } from './NotionText';
+import { BulletedListItemBlock } from '@notionhq/client/build/src/api-types';
 
-export const NotionBlock = ({ block }: { block: Block }): JSX.Element => {
+export const NotionBlock = ({
+  block,
+  customImage,
+}: {
+  block: Block;
+  customImage?: { Image: (props: any) => JSX.Element; props: any };
+}): JSX.Element => {
   const { type } = block;
 
   let definedBlock: Block;
@@ -21,49 +27,39 @@ export const NotionBlock = ({ block }: { block: Block }): JSX.Element => {
       definedBlock = block as ParagraphBlock;
       richTexts = definedBlock.paragraph.text as RichTextText[];
       if ((richTexts ?? []).length === 0) return <br />;
-      if (richTexts[0].text.content.startsWith('youtubeId: ')) {
+      if (richTexts[0].text.content.startsWith('[image')) {
+        const imageProps = richTexts[0].text.content
+          .slice(1)
+          .slice(0, -1)
+          .split(',')
+          .map((val) => val.trim())
+          .slice(1);
+        console.log(imageProps);
         return (
-          <iframe
-            width="100%"
-            height="500px"
-            src={
-              'https://www.youtube.com/embed/' +
-              richTexts[0].text.content.split('youtubeId: ').pop()
-            }
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{ borderRadius: '10px' }}
-          />
-        );
-      }
-      if (richTexts[0].text.content.startsWith('imagePath')) {
-        return (
-          <Box
-            w="100%"
-            h={`${richTexts[0].text.content.split(',')[1]}px`}
-            pos="relative"
-          >
-            <Image
-              src={richTexts[0].text.content.split(',').pop()}
-              layout="fill"
-              objectFit="contain"
-            />
+          <Box w="100%" h={imageProps[1] ?? '300px'} pos="relative">
+            {customImage && customImage.Image ? (
+              <customImage.Image src={imageProps[0]} {...customImage.props} />
+            ) : (
+              <Image src={imageProps[0]} layout="fill" objectFit="contain" />
+            )}
           </Box>
         );
       }
-      if (richTexts[0].text.content.startsWith('videoPath: ')) {
+      if (richTexts[0].text.content.startsWith('[video')) {
+        const videoProps = richTexts[0].text.content
+          .slice(1)
+          .slice(0, -1)
+          .split(',')
+          .map((val) => val.trim())
+          .slice(1);
         return (
           <video
             width="100%"
-            height="500px"
-            style={{ maxHeight: '500px' }}
+            height={videoProps[1] ?? '300px'}
+            style={{ maxHeight: videoProps[1] ?? '300px' }}
             controls
           >
-            <source
-              src={richTexts[0].text.content.split('videoPath: ').pop()}
-              type="video/mp4"
-            />
+            <source src={videoProps[0]} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         );
@@ -73,7 +69,6 @@ export const NotionBlock = ({ block }: { block: Block }): JSX.Element => {
           <NotionText text={richTexts} />
         </Text>
       );
-      break;
     case 'heading_1':
       definedBlock = block as HeadingOneBlock;
       richTexts = definedBlock.heading_1.text as RichTextText[];
@@ -99,17 +94,14 @@ export const NotionBlock = ({ block }: { block: Block }): JSX.Element => {
         </Heading>
       );
     case 'bulleted_list_item':
-    // TO-DO
     case 'numbered_list_item':
-      definedBlock = block as NumberedListItemBlock;
-      richTexts = definedBlock.numbered_list_item.text as RichTextText[];
+      definedBlock = block as BulletedListItemBlock;
+      if (!definedBlock.bulleted_list_item.text) return <></>;
       return (
-        <Text>
-          <NotionText text={richTexts} />
-        </Text>
+        <chakra.li>
+          <NotionText text={definedBlock.bulleted_list_item.text} />
+        </chakra.li>
       );
-    case 'child_page':
-    // TO-DO
     default:
       return (
         <Text>{`❌ Unsupported block (${
