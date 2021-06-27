@@ -18,7 +18,7 @@ yarn add notion-blocks-chakra-ui
 import { Stack } from '@chakra-ui/react';
 import { NotionBlock } from 'notion-blocks-chakra-ui';
 
-// blocks comes from a Notion API call
+// fetch `blocks` from a Notion API call
 <Stack>
   {blocks.map((block) => (
     <NotionBlock key={block.id} block={block} />
@@ -26,4 +26,32 @@ import { NotionBlock } from 'notion-blocks-chakra-ui';
 </Stack>;
 ```
 
-Greatly inspired by https://github.com/samuelkraft/notion-blog-nextjs
+## Images and video (unsupported by Notion API)
+
+In order to parse images and video, you need to add this kind of block in your Notion doc:
+
+```
+[image, <imageUrl>]
+```
+
+```
+[video, <video>]
+```
+
+## Custom image component
+
+```tsx
+<NotionBlock
+  block={block}
+  customImage={{
+    MyCustomComponent,
+    props: {
+      className: 'image',
+    },
+  }}
+/>
+```
+
+Inspired by [samuelkraft/notion-blog-nextjs](https://github.com/samuelkraft/notion-blog-nextjs)
+
+[Here is my portofolio source code which uses this library](https://github.com/baptisteArno/baptistearno-dot-com)
