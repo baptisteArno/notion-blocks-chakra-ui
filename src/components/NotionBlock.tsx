@@ -52,15 +52,29 @@ export const NotionBlock = ({
           .map((val) => val.trim())
           .slice(1);
         return (
-          <video
-            width="100%"
-            height={videoProps[1] ?? '300px'}
-            style={{ maxHeight: videoProps[1] ?? '300px' }}
-            controls
-          >
+          <video width="100%" controls>
             <source src={videoProps[0]} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+        );
+      }
+      if (richTexts[0].text.content.startsWith('[youtube')) {
+        const youtubeProps = richTexts[0].text.content
+          .slice(1)
+          .slice(0, -1)
+          .split(',')
+          .map((val) => val.trim())
+          .slice(1);
+        return (
+          <iframe
+            width="100%"
+            height="500px"
+            src={'https://www.youtube.com/embed/' + youtubeProps[0]}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={{ borderRadius: '10px' }}
+          />
         );
       }
       return (

@@ -28,7 +28,7 @@ import { NotionBlock } from 'notion-blocks-chakra-ui';
 
 ## Images and video (unsupported by Notion API)
 
-In order to parse images and video, you need to add this kind of block in your Notion doc:
+In order to parse images and video, because it is natively unsupported by Notion API, you need to add this kind of block in your Notion doc:
 
 ```
 [image, <imageUrl>]
@@ -36,6 +36,10 @@ In order to parse images and video, you need to add this kind of block in your N
 
 ```
 [video, <video>]
+```
+
+```
+[youtube, <youtubeId>]
 ```
 
 ## Custom image component
