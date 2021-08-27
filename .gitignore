@@ -3,3 +3,5 @@
 response-example*.json
 
 yarn-error.log
+
+lib
