@@ -39,5 +39,7 @@ export const NotionHeading = ({ block }: NotionHeadingProps): JSX.Element => {
         </Heading>
       );
     }
+    default:
+      return <></>;
   }
 };
