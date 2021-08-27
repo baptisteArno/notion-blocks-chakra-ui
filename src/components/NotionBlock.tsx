@@ -1,11 +1,26 @@
 import React from 'react';
-import { Box, Heading, Text, Image, chakra } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Text,
+  Image,
+  chakra,
+  Checkbox,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+} from '@chakra-ui/react';
 import {
   Block,
   HeadingOneBlock,
   HeadingThreeBlock,
   HeadingTwoBlock,
   ParagraphBlock,
+  ToDoBlock,
+  EmbedBlock,
+  ToggleBlock,
   RichTextText,
 } from '@notionhq/client/build/src/api-types';
 import { NotionText } from './NotionText';
@@ -114,6 +129,43 @@ export const NotionBlock = ({
         <chakra.li>
           <NotionText text={definedBlock.bulleted_list_item.text} />
         </chakra.li>
+      );
+    case 'to_do':
+      const toDoBlock = block as ToDoBlock;
+      return (
+        <Checkbox defaultChecked={toDoBlock.to_do.checked} isReadOnly>
+          {toDoBlock.to_do.text}
+        </Checkbox>
+      );
+    case 'toggle':
+      const toggleBlock = block as ToggleBlock;
+      return (
+        <Accordion>
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  {toggleBlock.toggle.text}
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              {(toggleBlock.toggle.children ?? []).map((block, idx) => (
+                <NotionBlock key={idx} block={block} />
+              ))}
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      );
+    case 'embed':
+      const embedBlock = block as EmbedBlock;
+      return (
+        <iframe
+          src={embedBlock.embed.url}
+          title={embedBlock.embed.caption?.pop()?.plain_text ?? 'Embed item'}
+          style={{ width: '100%', height: '600px' }}
+        />
       );
     default:
       return (
