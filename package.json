@@ -1,7 +1,7 @@
 {
   "name": "notion-blocks-chakra-ui",
   "description": "Parse notion blocks from API to Chakra UI components",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
@@ -14,7 +14,7 @@
   },
   "author": "Baptiste Arnaud <contact@baptiste-arnaud.fr>",
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "@chakra-ui/react": "^1.6.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
