@@ -4,7 +4,7 @@ import {
   RichTextText,
 } from '@notionhq/client/build/src/api-types';
 import React from 'react';
-import { NotionText } from '../NotionText';
+import { NotionText } from '../notion/NotionText';
 
 type Props = {
   block: ParagraphBlock;
@@ -12,10 +12,9 @@ type Props = {
 };
 
 export const NotionParagraph = ({ block, customImage }: Props): JSX.Element => {
-  const richTexts = block.paragraph.text as RichTextText[];
-  if ((richTexts ?? []).length === 0) return <br />;
-  if (richTexts[0].text.content.startsWith('[image')) {
-    const imageProps = richTexts[0].text.content
+  const text = block.paragraph.text as RichTextText[];
+  if (text[0].text.content.startsWith('[image')) {
+    const imageProps = text[0].plain_text
       .slice(1)
       .slice(0, -1)
       .split(',')
@@ -31,8 +30,8 @@ export const NotionParagraph = ({ block, customImage }: Props): JSX.Element => {
       </Box>
     );
   }
-  if (richTexts[0].text.content.startsWith('[video')) {
-    const videoProps = richTexts[0].text.content
+  if (text[0].text.content.startsWith('[video')) {
+    const videoProps = text[0].plain_text
       .slice(1)
       .slice(0, -1)
       .split(',')
@@ -45,8 +44,8 @@ export const NotionParagraph = ({ block, customImage }: Props): JSX.Element => {
       </video>
     );
   }
-  if (richTexts[0].text.content.startsWith('[youtube')) {
-    const youtubeProps = richTexts[0].text.content
+  if (text[0].text.content.startsWith('[youtube')) {
+    const youtubeProps = text[0].plain_text
       .slice(1)
       .slice(0, -1)
       .split(',')
@@ -66,7 +65,7 @@ export const NotionParagraph = ({ block, customImage }: Props): JSX.Element => {
   }
   return (
     <Text>
-      <NotionText text={richTexts} />
+      <NotionText text={text} />
     </Text>
   );
 };

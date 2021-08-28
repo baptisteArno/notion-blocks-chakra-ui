@@ -1,2 +1,2 @@
-export * from './components/NotionText';
-export * from './components/NotionBlock';
+export * from './components/notion/NotionText';
+export * from './components/notion/NotionBlock';

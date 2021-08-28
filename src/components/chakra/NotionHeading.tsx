@@ -5,7 +5,7 @@ import {
   HeadingTwoBlock,
 } from '@notionhq/client/build/src/api-types';
 import React from 'react';
-import { NotionText } from '../NotionText';
+import { NotionText } from '../notion/NotionText';
 
 export type HeadingBlock =
   | HeadingOneBlock

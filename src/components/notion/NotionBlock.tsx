@@ -6,13 +6,13 @@ import {
   EmbedBlock,
   ToggleBlock,
 } from '@notionhq/client/build/src/api-types';
-import { NotionParagraph } from './chakra/NotionParagraph';
-import { HeadingBlock, NotionHeading } from './chakra/NotionHeading';
-import { ListItemBlock, NotionListItem } from './chakra/NotionListItem';
-import { NotionToDo } from './chakra/NotionTodo';
-import { NotionToggle } from './chakra/NotionToggle';
-import { NotionEmbed } from './chakra/NotionEmbed';
-import { NotionUnsupported } from './chakra/NotionUnsupported';
+import { NotionParagraph } from '../chakra/NotionParagraph';
+import { HeadingBlock, NotionHeading } from '../chakra/NotionHeading';
+import { ListItemBlock, NotionListItem } from '../chakra/NotionListItem';
+import { NotionToDo } from '../chakra/NotionTodo';
+import { NotionToggle } from '../chakra/NotionToggle';
+import { NotionEmbed } from '../chakra/NotionEmbed';
+import { NotionUnsupported } from '../chakra/NotionUnsupported';
 
 export const NotionBlock = ({
   block,
@@ -24,10 +24,12 @@ export const NotionBlock = ({
   const { type } = block;
   switch (type) {
     case 'paragraph':
-      <NotionParagraph
-        block={block as ParagraphNotionBlock}
-        customImage={customImage}
-      />;
+      return (
+        <NotionParagraph
+          block={block as ParagraphNotionBlock}
+          customImage={customImage}
+        />
+      );
 
     case 'heading_1':
     case 'heading_2':

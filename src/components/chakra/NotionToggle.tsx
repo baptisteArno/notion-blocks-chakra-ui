@@ -8,8 +8,8 @@ import {
 } from '@chakra-ui/react';
 import { ToggleBlock } from '@notionhq/client/build/src/api-types';
 import React from 'react';
-import { NotionBlock } from '../NotionBlock';
-import { NotionText } from '../NotionText';
+import { NotionBlock } from '../notion/NotionBlock';
+import { NotionText } from '../notion/NotionText';
 
 type NotionToggleProps = {
   block: ToggleBlock;
