@@ -13,6 +13,7 @@ type Props = {
 
 export const NotionParagraph = ({ block, customImage }: Props): JSX.Element => {
   const text = block.paragraph.text as RichTextText[];
+  if ((text ?? []).length === 0) return <br />;
   if (text[0].text.content.startsWith('[image')) {
     const imageProps = text[0].plain_text
       .slice(1)

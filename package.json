@@ -1,7 +1,7 @@
 {
   "name": "notion-blocks-chakra-ui",
   "description": "Parse notion blocks from API to Chakra UI components",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
@@ -38,6 +38,7 @@
     "typescript": "@4.1.2"
   },
   "scripts": {
+    "build:push": "yarn build && yalc push",
     "build": "eslint src/**/* && yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir lib/cjs"
