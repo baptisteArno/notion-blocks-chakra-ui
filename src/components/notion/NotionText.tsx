@@ -47,11 +47,7 @@ export const NotionText = ({
             {...props}
           >
             {text.link ? (
-              <Link
-                href={'https://test.com'}
-                isExternal
-                textDecoration="underline"
-              >
+              <Link href={text.link.url} isExternal textDecoration="underline">
                 {text.content}
               </Link>
             ) : (
